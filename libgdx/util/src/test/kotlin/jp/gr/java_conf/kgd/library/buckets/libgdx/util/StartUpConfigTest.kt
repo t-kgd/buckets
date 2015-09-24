@@ -32,14 +32,14 @@ public class StartUpConfigTest {
 
     @Test
     fun defaultImplTest() {
-        val suc = StartUpConfig.DefaultStartUpConfig()
+        val sut = StartUpConfig.DefaultStartUpConfig()
         val resourceLoaderMock: (String) -> InputStream = { javaClass.classLoader.getResourceAsStream(it) }
-        suc.resourceLoader = resourceLoaderMock
-        suc.reload()
+        sut.resourceLoader = resourceLoaderMock
+        sut.reload()
 
-        assertEquals("resources/", suc.resourcesPath)
-        assertEquals("scripts/", suc.scriptsPath)
-        assertEquals("save/", suc.savePath)
-        assertEquals("resources/ui/uiskin.json", suc.defaultSkinPath)
+        assertEquals("resources/", sut.resourcesPath)
+        assertEquals("scripts/", sut.scriptsPath)
+        assertEquals("save/", sut.savePath)
+        assertEquals("resources/ui/uiskin.json", sut.defaultSkinPath)
     }
 }
