@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:0.13+'
+    }
+}
+
+group 'jp.gr.java_conf.kgd.library.buckets.util'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+apply plugin: 'maven'
+
+sourceCompatibility = 1.6
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:0.13.1514'
+    compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
