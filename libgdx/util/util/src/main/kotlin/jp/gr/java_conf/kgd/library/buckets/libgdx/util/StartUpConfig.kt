@@ -26,25 +26,26 @@ package jp.gr.java_conf.kgd.library.buckets.libgdx.util
 
 import groovy.util.ConfigObject
 import groovy.util.ConfigSlurper
+import jp.gr.java_conf.kgd.library.buckets.util.groovy.getAs
+import jp.gr.java_conf.kgd.library.buckets.util.groovy.getAsString
 import java.io.InputStream
-import kotlin.properties.Delegates
 
 /**
  * アプリ起動時の初期設定。
  */
 public interface StartUpConfig {
 
-    var resourcesPath: String
-        protected set
+    fun getResourcesPath(): String
 
-    var scriptsPath: String
-        protected set
+    fun getScriptsPath(): String
 
-    var savePath: String
-        protected set
+    fun getSavePath(): String
 
-    var defaultSkinPath: String
-        protected set
+    fun getDefaultSkinPath(): String
+
+    fun isInitialized(): Boolean
+
+    fun initialize()
 
     fun reload()
 
@@ -52,7 +53,7 @@ public interface StartUpConfig {
      * [StartUpConfig]のデフォルトの振る舞い。
      *
      * デフォルトでは、設定を[ConfigSlurper]によって読み込みます。
-     * 下記の階層で値を設定してください。
+     * 下記の階層で値を設定してください。（値は例です。）
      * <pre>
      *     path {
      *         resources = "resources/"
@@ -64,9 +65,25 @@ public interface StartUpConfig {
      */
     interface StartUpConfigTrait : StartUpConfig {
 
-        var configPath: String
+        protected var configPath: String
 
-        var resourceLoader: (String) -> InputStream
+        protected var resourceLoader: (String) -> InputStream
+
+        protected var initialized: Boolean
+
+        protected fun setResourcesPath(resourcesPath: String)
+
+        protected fun setScriptsPath(scriptsPath: String)
+
+        protected fun setSavePath(savePath: String)
+
+        protected fun setDefaultSkinPath(defaultSkinPath: String)
+
+        override fun isInitialized(): Boolean = initialized
+
+        override fun initialize(): Unit {
+            if (!isInitialized()) load()
+        }
 
         override fun reload() {
             load()
@@ -75,15 +92,24 @@ public interface StartUpConfig {
         private fun load() {
             val script = resourceLoader.invoke(configPath).bufferedReader().readText()
             val config = ConfigSlurper().parse(script)
-            initialize(config)
+
+            val pathMap = config.getAs<ConfigObject>("path")
+            setResourcesPath(pathMap.getAsString("resources"))
+            setScriptsPath(pathMap.getAsString("scripts"))
+            setSavePath(pathMap.getAsString("save"))
+            setDefaultSkinPath(pathMap.getAsString("defaultSkin"))
+
+            initialized = true
         }
 
-        private fun initialize(config: ConfigObject) {
-            val pathMap = config.get("path") as ConfigObject
-            this.resourcesPath = pathMap.getProperty("resources").toString()
-            this.scriptsPath = pathMap.getProperty("scripts").toString()
-            this.savePath = pathMap.getProperty("save").toString()
-            this.defaultSkinPath = pathMap.getProperty("defaultSkin").toString()
+        companion object {
+            val defaultResourcesPath: String = ""
+
+            val defaultScriptsPath: String = ""
+
+            val defaultSavePath: String = ""
+
+            val defaultDefaultSkinPath: String = ""
         }
     }
 
@@ -92,30 +118,76 @@ public interface StartUpConfig {
      *
      * このクラスはコンストラクタで初期化（[reload]）を行いません。
      */
-    open class DefaultStartUpConfig : StartUpConfigTrait {
+    class DefaultStartUpConfig(
+            override public var configPath: String = "config/startUpConfig.groovy",
+            override public var resourceLoader: (String) -> InputStream = { FilesProvider.getFiles().internal(it).read() }
+    ) : StartUpConfigTrait {
 
-        override var configPath = "config/startUpConfig.groovy"
+        private companion object {
 
-        override var resourceLoader: (String) -> InputStream = { FilesProvider.getFiles().internal(it).read() }
+        }
 
-        override var resourcesPath: String by Delegates.notNull()
+        override var initialized: Boolean = false
 
-        override var scriptsPath: String by Delegates.notNull()
+        private var resourcesPath: String = ""
 
-        override var savePath: String by Delegates.notNull()
+        private var scriptsPath: String = ""
 
-        override var defaultSkinPath: String by Delegates.notNull()
+        private var savePath: String = ""
+
+        private var defaultSkinPath: String = ""
+
+        override fun getResourcesPath(): String = resourcesPath
+
+        override fun getScriptsPath(): String = scriptsPath
+
+        override fun getSavePath(): String = savePath
+
+        override fun getDefaultSkinPath(): String = defaultSkinPath
+
+        override fun setResourcesPath(resourcesPath: String) {
+            this.resourcesPath = resourcesPath
+        }
+
+        override fun setScriptsPath(scriptsPath: String) {
+            this.scriptsPath = scriptsPath
+        }
+
+        override fun setSavePath(savePath: String) {
+            this.savePath = savePath
+        }
+
+        override fun setDefaultSkinPath(defaultSkinPath: String) {
+            this.defaultSkinPath = defaultSkinPath
+        }
+    }
+
+    class AutoInitializeStartUpConfigWrapper(startUpConfig: StartUpConfig) : StartUpConfig {
+
+        val startUpConfig by lazy {
+            startUpConfig.initialize()
+            startUpConfig
+        }
+
+        override fun getResourcesPath(): String = startUpConfig.getResourcesPath()
+
+        override fun getScriptsPath(): String = startUpConfig.getScriptsPath()
+
+        override fun getSavePath(): String = startUpConfig.getSavePath()
+
+        override fun getDefaultSkinPath(): String = startUpConfig.getDefaultSkinPath()
+
+        override fun initialize() = startUpConfig.initialize()
+
+        override fun isInitialized(): Boolean = startUpConfig.isInitialized()
+
+        override fun reload() = startUpConfig.reload()
     }
 
     /**
-     * [StartUpConfig]のデフォルト実装のシングルトン。
+     * [StartUpConfig]のデフォルト実装のシングルトンを[AutoInitializeStartUpConfigWrapper]で包んだもの。
      *
-     * 初回アクセス時に初期化を行いますが、先にlibGDXが初期化されている必要があるので注意してください。
-     * このシングルトンにアクセスする場合はできるだけアクセスを遅延した方が良いでしょう。
+     * メソッドに初回アクセスした際に初期化を行います。それまでにlibGDXが初期化されている必要があるので注意してください。
      */
-    companion object : StartUpConfig by DefaultStartUpConfig() {
-        init {
-            reload()
-        }
-    }
+    companion object : StartUpConfig by AutoInitializeStartUpConfigWrapper(DefaultStartUpConfig())
 }

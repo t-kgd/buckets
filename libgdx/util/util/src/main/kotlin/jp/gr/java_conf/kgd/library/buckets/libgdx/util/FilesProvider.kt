@@ -32,9 +32,7 @@ import com.badlogic.gdx.Gdx
  */
 public interface FilesProvider {
 
-    fun getFiles(): Files
+    fun getFiles(): Files = Gdx.files
 
-    companion object : FilesProvider {
-        override fun getFiles() = Gdx.files
-    }
+    companion object : FilesProvider
 }

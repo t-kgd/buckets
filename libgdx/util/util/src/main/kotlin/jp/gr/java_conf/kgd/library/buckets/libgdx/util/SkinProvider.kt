@@ -31,7 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
  */
 public interface SkinProvider {
 
-    fun getDefaultSkin() = Skin(FilesProvider.getFiles().internal(StartUpConfig.defaultSkinPath))
+    fun getDefaultSkin(): Skin = Skin(FilesProvider.getFiles().internal(StartUpConfig.getDefaultSkinPath()))
 
     companion object : SkinProvider
 }
