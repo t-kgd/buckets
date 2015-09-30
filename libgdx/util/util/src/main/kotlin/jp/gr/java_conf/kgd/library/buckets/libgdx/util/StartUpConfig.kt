@@ -103,13 +103,13 @@ public interface StartUpConfig {
         }
 
         companion object {
-            val defaultResourcesPath: String = ""
+            val defaultResourcesPath: String = "resources/"
 
-            val defaultScriptsPath: String = ""
+            val defaultScriptsPath: String = "scripts/"
 
-            val defaultSavePath: String = ""
+            val defaultSavePath: String = "save/"
 
-            val defaultDefaultSkinPath: String = ""
+            val defaultDefaultSkinPath: String = defaultResourcesPath + "ui/uiskin.json"
         }
     }
 
@@ -119,23 +119,24 @@ public interface StartUpConfig {
      * このクラスはコンストラクタで初期化（[reload]）を行いません。
      */
     class DefaultStartUpConfig(
-            override public var configPath: String = "config/startUpConfig.groovy",
-            override public var resourceLoader: (String) -> InputStream = { FilesProvider.getFiles().internal(it).read() }
+            override public var configPath: String = DefaultStartUpConfig.defaultConfigPath,
+            override public var resourceLoader: (String) -> InputStream = DefaultStartUpConfig.defaultResourceLoader
     ) : StartUpConfigTrait {
 
         private companion object {
-
+            val defaultConfigPath: String = "config/startUpConfig.groovy"
+            val defaultResourceLoader: (String) -> InputStream = { FilesProvider.getFiles().internal(it).read() }
         }
 
         override var initialized: Boolean = false
 
-        private var resourcesPath: String = ""
+        private var resourcesPath: String = StartUpConfigTrait.defaultResourcesPath
 
-        private var scriptsPath: String = ""
+        private var scriptsPath: String = StartUpConfigTrait.defaultScriptsPath
 
-        private var savePath: String = ""
+        private var savePath: String = StartUpConfigTrait.defaultSavePath
 
-        private var defaultSkinPath: String = ""
+        private var defaultSkinPath: String = StartUpConfigTrait.defaultDefaultSkinPath
 
         override fun getResourcesPath(): String = resourcesPath
 
