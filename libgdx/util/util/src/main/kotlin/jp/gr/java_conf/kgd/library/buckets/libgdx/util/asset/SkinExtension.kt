@@ -24,7 +24,7 @@
 
 @file:JvmName("SkinExtension")
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.skin
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.asset
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
