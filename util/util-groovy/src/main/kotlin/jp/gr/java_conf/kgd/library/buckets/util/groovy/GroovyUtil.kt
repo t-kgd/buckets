@@ -43,8 +43,8 @@ class GroovyUtil {
         }
 
         @JvmStatic
-        inline fun castOrTransform<reified T : Any>(any: Any): T {
-            return castOrTransform(any, T::class.java)
+        inline fun castOrTransform<reified T : Any>(obj: Any): T {
+            return castOrTransform(obj, T::class.java)
         }
     }
 }
