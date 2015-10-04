@@ -22,24 +22,7 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable.foo
 
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable.foo.FooComponent
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesMock
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
-import org.junit.Test
-import kotlin.test.assertEquals
-
-class ComponentTest {
-
-    @Test
-    fun reloadTest() {
-        FilesProvider.setFiles(FilesMock)
-
-        val sut = FooComponent()
-        assertEquals("initial", sut.v)
-
-        sut.reload()
-        assertEquals("done", sut.v)
-    }
-}
+FooReloadable self = self
+self.v = "done"

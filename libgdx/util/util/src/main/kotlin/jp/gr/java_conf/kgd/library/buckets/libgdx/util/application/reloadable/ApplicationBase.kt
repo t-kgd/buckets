@@ -35,7 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.Align
 
-open class ApplicationBase<T : Actor>(rootSceneFactory: () -> T) : ApplicationListener, Component where T : Component {
+open class ApplicationBase<T : Actor>(rootSceneFactory: () -> T) : ApplicationListener, Reloadable where T : Reloadable {
 
     val stage by lazy { Stage() }
 

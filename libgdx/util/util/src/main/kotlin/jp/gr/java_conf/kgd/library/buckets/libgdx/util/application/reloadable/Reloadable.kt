@@ -22,7 +22,13 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable.foo
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable
 
-FooComponent self = self
-self.v = "done"
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.script.ScriptTrait
+
+interface Reloadable : ScriptTrait {
+
+    fun reload() {
+        runPackageScript("reload")
+    }
+}
