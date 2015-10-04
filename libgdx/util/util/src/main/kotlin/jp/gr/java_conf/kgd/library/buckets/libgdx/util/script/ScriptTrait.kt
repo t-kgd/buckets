@@ -33,16 +33,15 @@ import java.util.*
  */
 interface ScriptTrait {
 
-    fun getClassName(): String = this.javaClass.name
-
     fun getPackageName(): String = this.javaClass.`package`.name
 
     fun getPackagePath(): String = getPackageName().replace(".", "/") + "/"
 
     fun getLocalBinding(): Binding {
-        val globalBinding = ScriptEngineProvider.getGlobalBinding()
-        val identityMap = globalBinding.getOrPut("localBindings", { IdentityHashMap<Any, Binding>() })
-        val localBinding = identityMap.getOrPut(this, {
+        val localBindingMap = getLocalBindingMap()
+
+        // localBindingは自クラスに持たず、自分の参照をキーにしてWeakHashMapに登録する
+        val localBinding = localBindingMap.getOrPut(this, {
             val binding = Binding()
             binding.setVariable("self", this@ScriptTrait)
             return@getOrPut binding
@@ -52,6 +51,7 @@ interface ScriptTrait {
     }
 
     fun runScript(path: String): Any? {
+        // 判別方法がまずいかもしれない。
         val pathEx = if (path.split(".").size() < 2) {
             path + ".groovy"
         } else {
@@ -63,4 +63,14 @@ interface ScriptTrait {
     }
 
     fun runPackageScript(path: String): Any? = runScript(getPackagePath() + path)
+
+    companion object {
+
+        fun getLocalBindingMap(): MutableMap<Any, Binding> {
+            val globalBinding = ScriptEngineProvider.getGlobalBinding()
+            // シングルトンに登録することになるのでメモリリークしないようにWeakHashMapに入れる
+            val map = globalBinding.getOrPut("localBindings", { WeakHashMap<Any, Binding>() })
+            return map
+        }
+    }
 }
