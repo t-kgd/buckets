@@ -61,12 +61,12 @@ fun Binding.getOrElse<T>(key: String, defaultValue: T): T {
     return getOrElse(key, { defaultValue })
 }
 
-fun Binding.getOrPut<T : Any>(name: String, defaultValueProvider: () -> T): T {
-    return if (containsKey(name)) {
-        getAs(name)
+fun Binding.getOrPut<T : Any>(key: String, defaultValueProvider: () -> T): T {
+    return if (containsKey(key)) {
+        getAs(key)
     } else {
         val defaultValue = defaultValueProvider.invoke()
-        put(name, defaultValue)
+        put(key, defaultValue)
         defaultValue
     }
 }
