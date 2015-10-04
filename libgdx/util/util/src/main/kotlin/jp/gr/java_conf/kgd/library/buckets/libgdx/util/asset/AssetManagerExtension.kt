@@ -24,7 +24,7 @@
 
 @file:JvmName("AssetManagerExtension")
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.asset
 
 import com.badlogic.gdx.assets.AssetManager
 
