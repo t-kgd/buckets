@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 
+@file:JvmName("AssetManagerExtension")
+
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util
 
 import com.badlogic.gdx.assets.AssetManager
