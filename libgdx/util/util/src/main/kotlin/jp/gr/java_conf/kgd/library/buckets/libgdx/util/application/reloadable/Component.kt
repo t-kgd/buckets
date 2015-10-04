@@ -22,20 +22,13 @@
  * THE SOFTWARE.
  */
 
-package config
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable
 
-/**
- * アプリ起動時の初期設定ファイル。
- */
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.script.ScriptTrait
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
+interface Component : ScriptTrait {
+
+    fun reload() {
+        runPackageScript("layout")
+    }
 }

@@ -22,20 +22,23 @@
  * THE SOFTWARE.
  */
 
-package config
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.groovy
 
-/**
- * アプリ起動時の初期設定ファイル。
- */
+import groovy.lang.Binding
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
+open class SimpleGroovyApplicationListenerProvider(
+        private val binding: Binding = GroovyApplicationListenerProvider.defaultBinding,
+        private val scriptRootPath: String = GroovyApplicationListenerProvider.defaultScriptRootPath,
+        private val entryScriptPath: String = GroovyApplicationListenerProvider.defaultEntryScriptPath,
+        private val filesProvider: FilesProvider = GroovyApplicationListenerProvider.defaultFilesProvider)
+: GroovyApplicationListenerProvider {
+
+    override fun getBinding(): Binding = binding
+
+    override fun getScriptRootPath(): String = scriptRootPath
+
+    override fun getEntryScriptPath(): String = entryScriptPath
+
+    override fun getFilesProvider(): FilesProvider = filesProvider
 }

@@ -22,20 +22,38 @@
  * THE SOFTWARE.
  */
 
-package config
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.config
 
-/**
- * アプリ起動時の初期設定ファイル。
- */
+import groovy.util.ConfigObject
+import groovy.util.ConfigSlurper
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
+class SimpleConfig(val configFilePath: String) : ConfigTrait {
+
+    private var initialized = false
+
+    private var configObject: ConfigObject? = null
+        protected set
+
+    override fun load() {
+        this.configObject = loadConfigObject(configFilePath)
+        this.initialized = true
+    }
+
+    override fun isInitialized(): Boolean {
+        return this.initialized
+    }
+
+    override fun getConfigObject(): ConfigObject {
+        return configObject!!
+    }
+
+    protected fun loadConfigObject(path: String): ConfigObject {
+        val fileHandle = FilesProvider.getFiles().internal(path);
+        return if (fileHandle.exists()) {
+            ConfigSlurper().parse(fileHandle.readString())
+        } else {
+            return ConfigObject()
+        }
+    }
 }

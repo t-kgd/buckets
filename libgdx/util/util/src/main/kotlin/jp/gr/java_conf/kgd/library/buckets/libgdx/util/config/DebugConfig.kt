@@ -22,20 +22,33 @@
  * THE SOFTWARE.
  */
 
-package config
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.config
 
 /**
- * アプリ起動時の初期設定ファイル。
+ * デバッグの設定。
  */
+interface DebugConfig : Config {
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
+    fun isDebug(): Boolean
+
+    /**
+     * [DebugConfig]のデフォルトの振る舞い。
+     *
+     * デフォルトでは、設定を[groovy.util.ConfigSlurper]によって読み込みます。
+     * 下記の階層で値を設定してください。（値は例です。）
+     * <pre>
+     *     isDebug = true
+     * </pre>
+     */
+    class SimpleDebugConfig(configFilePath: String = "config/debugConfig.groovy")
+    : Config by AutoInitializeConfig(SimpleConfig(configFilePath)), DebugConfig {
+
+        private val isDebug: Boolean by lazy { getOrElse("isDebug", { false }) }
+
+        override fun isDebug(): Boolean {
+            return isDebug
+        }
+    }
+
+    companion object : DebugConfig by SimpleDebugConfig()
 }

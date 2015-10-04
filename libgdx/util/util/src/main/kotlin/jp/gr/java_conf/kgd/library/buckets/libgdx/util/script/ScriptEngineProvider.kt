@@ -22,20 +22,25 @@
  * THE SOFTWARE.
  */
 
-package config
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.script
 
-/**
- * アプリ起動時の初期設定ファイル。
- */
+import groovy.lang.Binding
+import groovy.util.GroovyScriptEngine
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.StartUpConfig
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
+interface ScriptEngineProvider {
+
+    private object Internal {
+        val scriptEngine: GroovyScriptEngine by lazy {
+            GroovyScriptEngine(FilesProvider.getFiles().internal(StartUpConfig.getScriptsPath()).path())
+        }
+        val globalBinding: Binding by lazy { Binding() }
+    }
+
+    fun getScriptEngine(): GroovyScriptEngine = Internal.scriptEngine
+
+    fun getGlobalBinding(): Binding = Internal.globalBinding
+
+    companion object : ScriptEngineProvider
 }

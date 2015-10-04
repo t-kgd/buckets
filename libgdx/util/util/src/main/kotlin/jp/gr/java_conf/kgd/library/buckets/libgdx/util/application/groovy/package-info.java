@@ -22,20 +22,7 @@
  * THE SOFTWARE.
  */
 
-package config
-
 /**
- * アプリ起動時の初期設定ファイル。
+ * エントリポイントの実装を丸ごとGroovyスクリプトに委ねる仕組み。
  */
-
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
-}
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.groovy;

@@ -24,17 +24,19 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util
 
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.StartUpConfig
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesMock
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
 import org.junit.Test
-import java.io.InputStream
 import kotlin.test.assertEquals
 
 public class StartUpConfigTest {
 
     @Test
     fun defaultImplTest() {
-        val resourceLoaderMock: (String) -> InputStream = { javaClass.classLoader.getResourceAsStream(it) }
-        val sut = StartUpConfig.DefaultStartUpConfig(resourceLoader = resourceLoaderMock)
-        sut.initialize()
+        FilesProvider.setFiles(FilesMock)
+
+        val sut = StartUpConfig
 
         assertEquals("resources/", sut.getResourcesPath())
         assertEquals("scripts/", sut.getScriptsPath())

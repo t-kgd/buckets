@@ -22,20 +22,24 @@
  * THE SOFTWARE.
  */
 
-package config
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable
 
-/**
- * アプリ起動時の初期設定ファイル。
- */
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable.foo.FooComponent
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesMock
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
+import org.junit.Test
+import kotlin.test.assertEquals
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
+class ComponentTest {
+
+    @Test
+    fun reloadTest() {
+        FilesProvider.setFiles(FilesMock)
+
+        val sut = FooComponent()
+        assertEquals("initial", sut.v)
+
+        sut.reload()
+        assertEquals("done", sut.v)
+    }
 }

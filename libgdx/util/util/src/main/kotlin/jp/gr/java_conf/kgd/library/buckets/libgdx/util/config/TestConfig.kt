@@ -22,20 +22,21 @@
  * THE SOFTWARE.
  */
 
-package config
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.config
 
-/**
- * アプリ起動時の初期設定ファイル。
- */
+interface TestConfig : Config {
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
+    fun isTest(): Boolean
+
+    class SimpleTestConfig(configFilePath: String = "config/testConfig.groovy")
+    : Config by AutoInitializeConfig(SimpleConfig(configFilePath)), TestConfig {
+
+        private val isTest: Boolean by lazy { getOrElse("isTest", { false }) }
+
+        override fun isTest(): Boolean {
+            return isTest
+        }
+    }
+
+    companion object : TestConfig by SimpleTestConfig()
 }

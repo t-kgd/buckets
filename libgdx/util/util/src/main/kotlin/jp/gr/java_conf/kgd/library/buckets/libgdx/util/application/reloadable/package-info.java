@@ -22,17 +22,7 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util
-
-import com.badlogic.gdx.Files
-import com.badlogic.gdx.Gdx
-
 /**
- * [Files]の取得を抽象化する。
+ * 各コンポーネントおよびシーンのリロードをGroovyスクリプトに委ねる仕組み。
  */
-public interface FilesProvider {
-
-    fun getFiles(): Files = Gdx.files
-
-    companion object : FilesProvider
-}
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable;

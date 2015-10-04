@@ -24,18 +24,4 @@
 
 package config
 
-/**
- * アプリ起動時の初期設定ファイル。
- */
-
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
-}
+isTest = true

@@ -22,20 +22,35 @@
  * THE SOFTWARE.
  */
 
-package config
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application
 
-/**
- * アプリ起動時の初期設定ファイル。
- */
+import com.badlogic.gdx.ApplicationListener
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
+open class ApplicationListenerWrapper(val applicationListenerProvider: ApplicationListenerProvider) : ApplicationListener {
+
+    val applicationListener: ApplicationListener by lazy { applicationListenerProvider.getApplicationListener() }
+
+    override fun create() {
+        applicationListener.create()
+    }
+
+    override fun render() {
+        applicationListener.render()
+    }
+
+    override fun resume() {
+        applicationListener.resume()
+    }
+
+    override fun dispose() {
+        applicationListener.dispose()
+    }
+
+    override fun pause() {
+        applicationListener.pause()
+    }
+
+    override fun resize(width: Int, height: Int) {
+        applicationListener.resize(width, height)
+    }
 }

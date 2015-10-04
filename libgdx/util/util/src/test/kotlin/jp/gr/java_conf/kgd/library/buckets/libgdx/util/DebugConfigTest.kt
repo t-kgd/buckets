@@ -22,20 +22,22 @@
  * THE SOFTWARE.
  */
 
-package config
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util
 
-/**
- * アプリ起動時の初期設定ファイル。
- */
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.DebugConfig
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesMock
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
+import org.junit.Test
+import kotlin.test.assertEquals
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
+public class DebugConfigTest {
+
+    @Test
+    fun defaultImplTest() {
+        FilesProvider.setFiles(FilesMock)
+
+        val sut = DebugConfig
+
+        assertEquals(true, sut.isDebug())
+    }
 }

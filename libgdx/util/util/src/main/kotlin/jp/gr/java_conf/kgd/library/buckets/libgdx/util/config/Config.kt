@@ -22,9 +22,28 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.config
 
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import groovy.util.ConfigObject
+import jp.gr.java_conf.kgd.library.buckets.util.groovy.getAs
+import jp.gr.java_conf.kgd.library.buckets.util.groovy.getOrElse
 
-fun Skin.createTextButton(text: String) = TextButton(text, this)
+/**
+ * 設定を取得する。
+ */
+interface Config {
+
+    fun isInitialized(): Boolean
+
+    fun initialize()
+
+    fun getConfigObject(): ConfigObject
+
+    inline final fun getAs<reified T : Any>(key: String): T {
+        return getConfigObject().getAs(key)
+    }
+
+    inline final fun getOrElse<reified T : Any>(key: String, defaultValueProvider: () -> T): T {
+        return getConfigObject().getOrElse(key, defaultValueProvider)
+    }
+}

@@ -22,20 +22,18 @@
  * THE SOFTWARE.
  */
 
-package config
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.skin
+
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.StartUpConfig
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
 
 /**
- * アプリ起動時の初期設定ファイル。
+ * [Skin]の取得を抽象化する。
  */
+public interface SkinProvider {
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
+    fun getDefaultSkin(): Skin = Skin(FilesProvider.getFiles().internal(StartUpConfig.getDefaultSkinPath()))
+
+    companion object : SkinProvider
 }
