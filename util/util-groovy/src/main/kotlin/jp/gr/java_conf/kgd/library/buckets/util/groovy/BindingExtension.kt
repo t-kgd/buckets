@@ -22,38 +22,34 @@
  * THE SOFTWARE.
  */
 
-@file:JvmName("ConfigObjectExtension")
+@file:JvmName("BindingExtension")
 
 package jp.gr.java_conf.kgd.library.buckets.util.groovy
 
-import groovy.util.ConfigObject
+import groovy.lang.Binding
 
-fun ConfigObject.getAs<T>(key: String, clazz: Class<T>): T {
-    return GroovyUtil.castOrTransform(get(key)!!, clazz)
+/*
+ * Mapと透過的に扱えないせいでDRYじゃないのが悔しい。
+ * ダックタイピングはできないが悪あがきをする。
+ */
+
+fun Binding.get(key: String): Any {
+    return getVariable(key)
 }
 
-inline fun ConfigObject.getAs<reified T : Any>(key: String): T {
-    return GroovyUtil.castOrTransform(get(key)!!)
+fun Binding.put(key: String, value: Any) {
+    setVariable(key, value)
 }
 
-// inline関数からクロージャを渡せない
-//fun ConfigObject.getOrElse<T>(key: String, defaultValue: () -> T, clazz: Class<T>): T {
-//    return if (containsKey(key)) {
-//        getAs(key, clazz)
-//    } else {
-//        defaultValue.invoke()
-//    }
-//}
-
-fun ConfigObject.getOrElse<T : Any>(key: String, defaultValue: T): T {
-    return if (containsKey(key)) {
-        getAs(key, defaultValue.javaClass)
-    } else {
-        defaultValue
-    }
+fun Binding.containsKey(key: String): Boolean {
+    return hasVariable(key)
 }
 
-inline fun ConfigObject.getOrElse<reified T : Any>(key: String, defaultValue: () -> T): T {
+fun Binding.getAs<T>(key: String): T {
+    return get(key) as T
+}
+
+fun Binding.getOrElse<T>(key: String, defaultValue: () -> T): T {
     return if (containsKey(key)) {
         getAs(key)
     } else {
@@ -61,16 +57,11 @@ inline fun ConfigObject.getOrElse<reified T : Any>(key: String, defaultValue: ()
     }
 }
 
-fun ConfigObject.getOrPut<T : Any>(key: String, defaultValue: T): T {
-    return if (containsKey(key)) {
-        getAs(key, defaultValue.javaClass)
-    } else {
-        put(key, defaultValue)
-        defaultValue
-    }
+fun Binding.getOrElse<T>(key: String, defaultValue: T): T {
+    return getOrElse(key, { defaultValue })
 }
 
-inline fun ConfigObject.getOrPut<reified T : Any>(name: String, defaultValueProvider: () -> T): T {
+fun Binding.getOrPut<T : Any>(name: String, defaultValueProvider: () -> T): T {
     return if (containsKey(name)) {
         getAs(name)
     } else {
@@ -78,4 +69,8 @@ inline fun ConfigObject.getOrPut<reified T : Any>(name: String, defaultValueProv
         put(name, defaultValue)
         defaultValue
     }
+}
+
+fun Binding.getOrPut<T : Any>(key: String, defaultValue: T): T {
+    return getOrElse(key, { defaultValue })
 }
