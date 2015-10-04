@@ -43,7 +43,7 @@ interface Config {
         return getConfigObject().getAs(key)
     }
 
-    inline final fun getOrElse<reified T : Any>(key: String, defaultValueProvider: () -> T): T {
-        return getConfigObject().getOrElse(key, defaultValueProvider)
+    inline final fun getOrElse<reified T : Any>(key: String, defaultValueFactory: () -> T): T {
+        return getConfigObject().getOrElse(key, defaultValueFactory)
     }
 }
