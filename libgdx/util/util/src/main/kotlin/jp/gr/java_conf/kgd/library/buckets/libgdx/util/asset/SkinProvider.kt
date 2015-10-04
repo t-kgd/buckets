@@ -33,7 +33,12 @@ import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
  */
 public interface SkinProvider {
 
-    fun getDefaultSkin(): Skin = Skin(FilesProvider.getFiles().internal(StartUpConfig.getDefaultSkinPath()))
+    private object internal {
+
+        val defaultSkin: Skin by lazy { Skin(FilesProvider.getFiles().internal(StartUpConfig.getDefaultSkinPath())) }
+    }
+
+    fun getDefaultSkin(): Skin = internal.defaultSkin
 
     companion object : SkinProvider
 }
