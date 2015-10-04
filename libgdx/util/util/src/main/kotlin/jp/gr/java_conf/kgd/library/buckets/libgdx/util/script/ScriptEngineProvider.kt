@@ -31,16 +31,18 @@ import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
 
 interface ScriptEngineProvider {
 
-    private object Internal {
+    private object internal {
+
         val scriptEngine: GroovyScriptEngine by lazy {
             GroovyScriptEngine(FilesProvider.getFiles().internal(StartUpConfig.getScriptsPath()).path())
         }
+
         val globalBinding: Binding by lazy { Binding() }
     }
 
-    fun getScriptEngine(): GroovyScriptEngine = Internal.scriptEngine
+    fun getScriptEngine(): GroovyScriptEngine = internal.scriptEngine
 
-    fun getGlobalBinding(): Binding = Internal.globalBinding
+    fun getGlobalBinding(): Binding = internal.globalBinding
 
     companion object : ScriptEngineProvider
 }
