@@ -49,11 +49,11 @@ fun Binding.getAs<T>(key: String): T {
     return get(key) as T
 }
 
-fun Binding.getOrElse<T>(key: String, defaultValue: () -> T): T {
+fun Binding.getOrElse<T>(key: String, defaultValueFactory: () -> T): T {
     return if (containsKey(key)) {
         getAs(key)
     } else {
-        defaultValue.invoke()
+        defaultValueFactory.invoke()
     }
 }
 
@@ -61,11 +61,11 @@ fun Binding.getOrElse<T>(key: String, defaultValue: T): T {
     return getOrElse(key, { defaultValue })
 }
 
-fun Binding.getOrPut<T : Any>(key: String, defaultValueProvider: () -> T): T {
+fun Binding.getOrPut<T : Any>(key: String, defaultValueFactory: () -> T): T {
     return if (containsKey(key)) {
         getAs(key)
     } else {
-        val defaultValue = defaultValueProvider.invoke()
+        val defaultValue = defaultValueFactory.invoke()
         put(key, defaultValue)
         defaultValue
     }

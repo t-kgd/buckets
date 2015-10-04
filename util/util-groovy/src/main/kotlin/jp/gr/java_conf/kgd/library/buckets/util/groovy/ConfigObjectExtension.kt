@@ -53,11 +53,11 @@ fun ConfigObject.getOrElse<T : Any>(key: String, defaultValue: T): T {
     }
 }
 
-inline fun ConfigObject.getOrElse<reified T : Any>(key: String, defaultValue: () -> T): T {
+inline fun ConfigObject.getOrElse<reified T : Any>(key: String, defaultValueFactory: () -> T): T {
     return if (containsKey(key)) {
         getAs(key)
     } else {
-        defaultValue.invoke()
+        defaultValueFactory.invoke()
     }
 }
 
@@ -70,11 +70,11 @@ fun ConfigObject.getOrPut<T : Any>(key: String, defaultValue: T): T {
     }
 }
 
-inline fun ConfigObject.getOrPut<reified T : Any>(name: String, defaultValueProvider: () -> T): T {
+inline fun ConfigObject.getOrPut<reified T : Any>(name: String, defaultValueFactory: () -> T): T {
     return if (containsKey(name)) {
         getAs(name)
     } else {
-        val defaultValue = defaultValueProvider.invoke()
+        val defaultValue = defaultValueFactory.invoke()
         put(name, defaultValue)
         defaultValue
     }
