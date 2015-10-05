@@ -27,7 +27,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:0.13+'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:0.14.449'
     }
 }
 
@@ -46,16 +46,15 @@ repositories {
     mavenLocal()
 }
 
-configurations.all {
-    // check for updates every build
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
+//configurations.all {
+//    // check for updates every build
+//    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+//}
 
 dependencies {
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:0.13.1514'
-    compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:0.14.449'
+    compile 'org.codehaus.groovy:groovy-all:2.4.5'
     compile "com.badlogicgames.gdx:gdx:1.6.5"
     compile('jp.gr.java_conf.kgd.library.buckets.util:util-groovy:1.0-SNAPSHOT') { changing = true }
-    testCompile 'com.googlecode.jmockit:jmockit:1.7'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
