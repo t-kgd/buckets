@@ -24,4 +24,21 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-object SingletonLoggerProvider : LoggerProviderDelegator by SimpleLoggerProviderDelegator(DefaultLoggerProvider())
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.TestConfig
+
+class DefaultLoggerProvider : LoggerProvider {
+
+    private val logger_: Logger by lazy { createDefaultLogger() }
+
+    override fun getLogger(): Logger {
+        return logger_
+    }
+
+    private fun createDefaultLogger(): Logger {
+        return if (TestConfig.isTest() && !TestConfig.usingGdx()) {
+            StandardOutLogger()
+        } else {
+            GdxLogger()
+        }
+    }
+}
