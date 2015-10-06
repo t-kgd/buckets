@@ -31,7 +31,7 @@ import java.util.*
 /**
  * Groovyスクリプトを使用する際のユーティリティ。
  */
-interface ScriptTrait {
+interface ScriptableTrait {
 
     fun getPackageName(): String = this.javaClass.`package`.name
 
@@ -43,7 +43,7 @@ interface ScriptTrait {
         // localBindingは自クラスに持たず、自分の参照をキーにしてWeakHashMapに登録する
         val localBinding = localBindingMap.getOrPut(this, {
             val binding = Binding()
-            binding.setVariable("self", this@ScriptTrait)
+            binding.setVariable("self", this@ScriptableTrait)
             return@getOrPut binding
         })
 
