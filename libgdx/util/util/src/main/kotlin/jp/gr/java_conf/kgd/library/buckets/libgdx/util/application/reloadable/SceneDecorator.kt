@@ -24,23 +24,14 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable
 
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable.foo.FooReloadable
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.DefaultFilesMock
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SimpleFilesProvider
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
-import org.junit.Test
-import kotlin.test.assertEquals
+import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.ui.Table
 
-class ReloadableTest {
+class SceneDecorator<T : Actor>(val scene: T) : Table(), Reloadable where T : Reloadable {
 
-    @Test
-    fun reloadTest() {
-        SingletonFilesProvider.filesProvider = SimpleFilesProvider(DefaultFilesMock())
 
-        val sut = FooReloadable()
-        assertEquals("initial", sut.v)
-
-        sut.reload()
-        assertEquals("done", sut.v)
+    override fun reload() {
+        super.reload()
+        scene.reload()
     }
 }

@@ -28,13 +28,37 @@ interface TestConfig : Config {
 
     fun isTest(): Boolean
 
-    class SimpleTestConfig(configFilePath: String = "config/testConfig.groovy")
+    fun usingGdx(): Boolean
+
+    object defaults {
+
+        val configFilePath: String = "config/testConfig.groovy"
+
+        val isTest: Boolean = false
+
+        val usingGdx: Boolean = true
+    }
+
+    object keys {
+
+        val isTest = "isTest"
+
+        val usingGdx = "usingGdx"
+    }
+
+    class SimpleTestConfig(configFilePath: String = defaults.configFilePath)
     : Config by AutoInitializeConfig(SimpleConfig(configFilePath)), TestConfig {
 
-        private val isTest: Boolean by lazy { getOrElse("isTest", { false }) }
+        private val isTest: Boolean by lazy { getOrElse(keys.isTest, { defaults.isTest }) }
+
+        private val usingGdx: Boolean by lazy { getOrElse(keys.usingGdx, { defaults.usingGdx }) }
 
         override fun isTest(): Boolean {
             return isTest
+        }
+
+        override fun usingGdx(): Boolean {
+            return usingGdx
         }
     }
 

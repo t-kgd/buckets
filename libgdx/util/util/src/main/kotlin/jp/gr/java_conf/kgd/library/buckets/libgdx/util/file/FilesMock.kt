@@ -27,12 +27,7 @@ package jp.gr.java_conf.kgd.library.buckets.libgdx.util.file
 import com.badlogic.gdx.Files
 import com.badlogic.gdx.files.FileHandle
 
-/**
- * Created by misakura on 2015/10/03.
- */
 open class FilesMock : Files {
-
-    class FileHandleMock(filename: String, fileType: Files.FileType) : FileHandle(filename, fileType)
 
     override fun getLocalStoragePath(): String? {
         throw UnsupportedOperationException()
@@ -72,11 +67,5 @@ open class FilesMock : Files {
 
     override fun isLocalStorageAvailable(): Boolean {
         throw UnsupportedOperationException()
-    }
-
-    companion object : FilesMock() {
-        override fun internal(path: String?): FileHandle? {
-            return FileHandle(javaClass.classLoader.getResource(path!!).file)
-        }
     }
 }

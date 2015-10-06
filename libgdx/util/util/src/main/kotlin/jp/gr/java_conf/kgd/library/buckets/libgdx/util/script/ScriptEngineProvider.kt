@@ -27,14 +27,14 @@ package jp.gr.java_conf.kgd.library.buckets.libgdx.util.script
 import groovy.lang.Binding
 import groovy.util.GroovyScriptEngine
 import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.StartUpConfig
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
 
 interface ScriptEngineProvider {
 
     private object internal {
 
         val scriptEngine: GroovyScriptEngine by lazy {
-            GroovyScriptEngine(FilesProvider.getFiles().internal(StartUpConfig.getScriptsPath()).path())
+            GroovyScriptEngine(SingletonFilesProvider.getFiles().internal(StartUpConfig.getScriptsPath()).path())
         }
 
         val globalBinding: Binding by lazy { Binding() }

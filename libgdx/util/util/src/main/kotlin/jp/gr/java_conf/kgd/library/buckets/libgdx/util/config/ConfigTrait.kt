@@ -26,7 +26,7 @@ package jp.gr.java_conf.kgd.library.buckets.libgdx.util.config
 
 interface ConfigTrait : Config {
 
-    protected fun load()
+    fun load()
 
     override fun initialize() {
         if (!isInitialized()) load()

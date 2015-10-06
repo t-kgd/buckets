@@ -25,31 +25,16 @@
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.file
 
 import com.badlogic.gdx.Files
-import com.badlogic.gdx.Gdx
 
 /**
  * [Files]の取得を抽象化する。
  */
 public interface FilesProvider {
 
-    fun getFiles(): Files = Gdx.files
+    fun getFiles(): Files
 
     /*
      * 正攻法でテストするのが難しかったので、シングルトンに直接モックをセットできるようにした。
      * （外部ファイルから指定したかったが、ファイルの位置を透過的に扱えるのがこのFilesなので……）
      */
-    open class SimpleFilesProvider : FilesProvider {
-
-        private var files: Files? = null
-
-        override fun getFiles(): Files {
-            return this.files ?: Gdx.files
-        }
-
-        fun setFiles(files: Files) {
-            this.files = files
-        }
-    }
-
-    companion object : SimpleFilesProvider()
 }

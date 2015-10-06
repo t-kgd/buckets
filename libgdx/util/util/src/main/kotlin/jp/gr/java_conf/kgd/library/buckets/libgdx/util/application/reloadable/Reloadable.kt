@@ -24,9 +24,9 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable
 
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.script.ScriptTrait
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.script.ScriptableTrait
 
-interface Reloadable : ScriptTrait {
+interface Reloadable : ScriptableTrait {
 
     fun reload() {
         runPackageScript("reload")

@@ -27,8 +27,9 @@ package jp.gr.java_conf.kgd.library.buckets.libgdx.util.config
 import groovy.util.ConfigObject
 import groovy.util.ConfigSlurper
 import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
 
-class SimpleConfig(val configFilePath: String) : ConfigTrait {
+class SimpleConfig(val configFilePath: String, val filesProvider: FilesProvider = SingletonFilesProvider) : ConfigTrait {
 
     private var initialized = false
 
@@ -49,7 +50,7 @@ class SimpleConfig(val configFilePath: String) : ConfigTrait {
     }
 
     protected fun loadConfigObject(path: String): ConfigObject {
-        val fileHandle = FilesProvider.getFiles().internal(path);
+        val fileHandle = filesProvider.getFiles().internal(path);
         return if (fileHandle.exists()) {
             ConfigSlurper().parse(fileHandle.readString())
         } else {

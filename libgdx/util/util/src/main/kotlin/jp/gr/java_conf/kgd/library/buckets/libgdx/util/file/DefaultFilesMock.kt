@@ -22,25 +22,20 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.file
 
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable.foo.FooReloadable
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.DefaultFilesMock
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SimpleFilesProvider
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
-import org.junit.Test
-import kotlin.test.assertEquals
+import com.badlogic.gdx.files.FileHandle
 
-class ReloadableTest {
+/**
+ * Created by misakura on 2015/10/06.
+ */
+class DefaultFilesMock : FilesMock() {
 
-    @Test
-    fun reloadTest() {
-        SingletonFilesProvider.filesProvider = SimpleFilesProvider(DefaultFilesMock())
+    override fun internal(path: String?): FileHandle? {
+        return FileHandle(FilesMock::class.javaClass.classLoader.getResource(path!!).file)
+    }
 
-        val sut = FooReloadable()
-        assertEquals("initial", sut.v)
-
-        sut.reload()
-        assertEquals("done", sut.v)
+    override fun classpath(path: String?): FileHandle? {
+        return FileHandle(FilesMock::class.javaClass.classLoader.getResource(path!!).file)
     }
 }

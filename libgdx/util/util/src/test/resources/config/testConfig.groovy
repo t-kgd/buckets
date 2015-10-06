@@ -25,3 +25,5 @@
 package config
 
 isTest = true
+
+usingGdx = false

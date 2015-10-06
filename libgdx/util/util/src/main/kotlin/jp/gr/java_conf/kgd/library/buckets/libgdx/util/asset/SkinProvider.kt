@@ -26,7 +26,7 @@ package jp.gr.java_conf.kgd.library.buckets.libgdx.util.asset
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.StartUpConfig
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
 
 /**
  * [Skin]の取得を抽象化する。
@@ -35,7 +35,7 @@ public interface SkinProvider {
 
     private object internal {
 
-        val defaultSkin: Skin by lazy { Skin(FilesProvider.getFiles().internal(StartUpConfig.getDefaultSkinPath())) }
+        val defaultSkin: Skin by lazy { Skin(SingletonFilesProvider.getFiles().internal(StartUpConfig.getDefaultSkinPath())) }
     }
 
     fun getDefaultSkin(): Skin = internal.defaultSkin

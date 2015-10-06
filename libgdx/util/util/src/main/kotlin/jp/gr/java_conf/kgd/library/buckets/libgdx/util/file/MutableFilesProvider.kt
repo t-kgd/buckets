@@ -22,25 +22,11 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.file
 
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable.foo.FooReloadable
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.DefaultFilesMock
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SimpleFilesProvider
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
-import org.junit.Test
-import kotlin.test.assertEquals
+import com.badlogic.gdx.Files
 
-class ReloadableTest {
+interface MutableFilesProvider : FilesProvider {
 
-    @Test
-    fun reloadTest() {
-        SingletonFilesProvider.filesProvider = SimpleFilesProvider(DefaultFilesMock())
-
-        val sut = FooReloadable()
-        assertEquals("initial", sut.v)
-
-        sut.reload()
-        assertEquals("done", sut.v)
-    }
+    fun setFiles(files: Files)
 }

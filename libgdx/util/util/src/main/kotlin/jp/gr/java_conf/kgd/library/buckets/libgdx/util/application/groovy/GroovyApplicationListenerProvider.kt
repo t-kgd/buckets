@@ -29,16 +29,17 @@ import groovy.lang.Binding
 import groovy.util.GroovyScriptEngine
 import jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.ApplicationListenerProvider
 import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
 
 interface GroovyApplicationListenerProvider : ApplicationListenerProvider {
 
-    protected fun getBinding(): Binding = defaultBinding
+    fun getBinding(): Binding = defaultBinding
 
-    protected fun getScriptRootPath(): String = defaultScriptRootPath
+    fun getScriptRootPath(): String = defaultScriptRootPath
 
-    protected fun getEntryScriptPath() = defaultEntryScriptPath
+    fun getEntryScriptPath() = defaultEntryScriptPath
 
-    protected fun getFilesProvider(): FilesProvider = defaultFilesProvider
+    fun getFilesProvider(): FilesProvider = defaultFilesProvider
 
     override fun getApplicationListener(): ApplicationListener {
         val files = getFilesProvider().getFiles()
@@ -51,6 +52,6 @@ interface GroovyApplicationListenerProvider : ApplicationListenerProvider {
         val defaultBinding = Binding()
         val defaultScriptRootPath = "internal/scripts/"
         val defaultEntryScriptPath = "createApplicationListener.groovy"
-        val defaultFilesProvider by lazy { FilesProvider }
+        val defaultFilesProvider by lazy { SingletonFilesProvider }
     }
 }

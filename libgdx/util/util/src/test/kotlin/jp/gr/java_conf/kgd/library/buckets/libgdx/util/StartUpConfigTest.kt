@@ -25,8 +25,9 @@
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util
 
 import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.StartUpConfig
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesMock
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.FilesProvider
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.DefaultFilesMock
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SimpleFilesProvider
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -34,7 +35,7 @@ public class StartUpConfigTest {
 
     @Test
     fun defaultImplTest() {
-        FilesProvider.setFiles(FilesMock)
+        SingletonFilesProvider.filesProvider = SimpleFilesProvider(DefaultFilesMock())
 
         val sut = StartUpConfig
 

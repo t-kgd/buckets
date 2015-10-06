@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Tree
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.asset.SkinProvider
 
 class TreeUtil {
 
@@ -46,7 +45,6 @@ class TreeUtil {
         }
 
         fun createSimpleTree(actor: Actor, skin: Skin): Tree {
-            val skin = SkinProvider.getDefaultSkin()
             val tree = Tree(skin)
             val treeNode = createTreeNode(actor, { Label(it.javaClass.simpleName, skin) })
             tree.add(treeNode)
