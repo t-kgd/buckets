@@ -43,7 +43,7 @@ class FindableTree : Tree {
      * この[Tree]の[Tree.Node]や、[rootActor]の構成が生成時点から変わった場合は、[findActualActor]が正しく動作できない可能性があります。
      */
     constructor(rootActor: Actor, skin: Skin) : super(skin) {
-        this.actualActorMap = addAsNodeActor(rootActor, skin)
+        this.actualActorMap = addActorRecursive(rootActor, skin)
     }
 
     fun findActualActor(nodeActor: Actor): Actor? {

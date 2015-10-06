@@ -39,7 +39,7 @@ import java.util.*
  * [Actor]が[com.badlogic.gdx.scenes.scene2d.Group]であれば再帰的に走査し、加えてきます。
  * 戻り値の実体は[IdentityHashMap]であり、「変換後の[Actor]」から「元の[Actor]」を検索できます。
  */
-fun Tree.addAsNodeActor(actor: Actor, nodeActorFactory: (Actor) -> Actor): Map<Actor, Actor> {
+fun Tree.addActorRecursive(actor: Actor, nodeActorFactory: (Actor) -> Actor): Map<Actor, Actor> {
     val map = IdentityHashMap<Actor, Actor>()
     val treeNode = TreeUtil.createTreeNode(actor, {
         val label = nodeActorFactory(it)
@@ -50,6 +50,6 @@ fun Tree.addAsNodeActor(actor: Actor, nodeActorFactory: (Actor) -> Actor): Map<A
     return map
 }
 
-fun Tree.addAsNodeActor(actor: Actor, skin: Skin): Map<Actor, Actor> {
-    return addAsNodeActor(actor, { Label(it.javaClass.simpleName, skin) })
+fun Tree.addActorRecursive(actor: Actor, skin: Skin): Map<Actor, Actor> {
+    return addActorRecursive(actor, { Label(it.javaClass.simpleName, skin) })
 }
