@@ -26,7 +26,7 @@ package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
 import com.badlogic.gdx.Gdx
 
-class GdxLogger : Logger {
+class GdxLogger : LoggerDefaultTrait {
 
     override fun isDebugEnable(): Boolean {
         return Gdx.app.logLevel >= com.badlogic.gdx.utils.Logger.DEBUG

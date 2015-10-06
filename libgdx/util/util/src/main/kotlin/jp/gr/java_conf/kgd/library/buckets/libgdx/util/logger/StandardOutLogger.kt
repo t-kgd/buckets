@@ -24,7 +24,7 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-class StandardOutLogger : Logger {
+class StandardOutLogger : LoggerDefaultTrait {
 
     override fun isDebugEnable(): Boolean {
         return true

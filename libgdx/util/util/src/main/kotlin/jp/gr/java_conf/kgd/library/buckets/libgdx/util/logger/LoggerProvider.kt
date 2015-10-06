@@ -24,42 +24,7 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.TestConfig
-
-/**
- * Created by misakura on 2015/10/05.
- */
 interface LoggerProvider {
 
     fun getLogger(): Logger
-
-    interface MutableLoggerProvider : LoggerProvider {
-
-        fun setLogger(logger: Logger)
-    }
-
-    class SimpleLoggerProvider(private var logger: Logger) : MutableLoggerProvider {
-
-        override fun getLogger(): Logger {
-            return logger
-        }
-
-        override fun setLogger(logger: Logger) {
-            this.logger = logger
-        }
-    }
-
-    private object internal {
-
-        fun createDefaultLoggerProvider(): MutableLoggerProvider {
-            val logger = if (TestConfig.isTest()) {
-                StandardOutLogger()
-            } else {
-                GdxLogger()
-            }
-            return SimpleLoggerProvider(logger)
-        }
-    }
-
-    companion object : MutableLoggerProvider by internal.createDefaultLoggerProvider()
 }

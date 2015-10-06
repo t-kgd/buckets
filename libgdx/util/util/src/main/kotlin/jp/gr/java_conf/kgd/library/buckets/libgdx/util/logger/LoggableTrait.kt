@@ -24,19 +24,13 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-interface LoggableTrait {
+interface LoggableTrait : Loggable {
 
-    @JvmOverloads
-    fun debugThrough<T>(obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T {
-        return LoggerProvider.getLogger().debugThrough(this.javaClass.simpleName, obj, lazyMessage, exception)
+    override fun debugThrough<T>(obj: T, lazyMessage: (T) -> String, exception: Exception?): T {
+        return SingletonLoggerProvider.getLogger().debugThrough(this.javaClass.simpleName, obj, lazyMessage, exception)
     }
 
-    inline final fun debugThrough<T>(obj: T): T {
-        return debugThrough(obj, { "" + obj }, null)
-    }
-
-    @JvmOverloads
-    fun debug(lazyMessage: () -> String, exception: Exception? = null) {
-        return LoggerProvider.getLogger().debug(this.javaClass.simpleName, lazyMessage, exception)
+    override fun debug(lazyMessage: () -> String, exception: Exception?) {
+        return SingletonLoggerProvider.getLogger().debug(this.javaClass.simpleName, lazyMessage, exception)
     }
 }

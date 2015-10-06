@@ -24,11 +24,4 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-interface Logger {
-
-    fun isDebugEnable(): Boolean
-
-    fun debugThrough<T>(tag: String, obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T
-
-    fun debug(tag: String, lazyMessage: () -> String, exception: Exception? = null)
-}
+class SimpleLoggerProviderDelegator(override var loggerProvider: LoggerProvider) : LoggerProviderDelegator

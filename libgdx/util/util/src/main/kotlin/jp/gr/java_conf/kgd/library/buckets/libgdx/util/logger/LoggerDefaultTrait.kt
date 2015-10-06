@@ -24,11 +24,20 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-interface Logger {
+interface LoggerDefaultTrait : Logger {
 
-    fun isDebugEnable(): Boolean
+    fun onDebug(tag: String, message: String, exception: Exception?)
 
-    fun debugThrough<T>(tag: String, obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T
+    override fun debugThrough<T>(tag: String, obj: T, lazyMessage: (T) -> String, exception: Exception?): T {
+        if (isDebugEnable()) {
+            onDebug(tag, lazyMessage.invoke(obj), exception)
+        }
+        return obj
+    }
 
-    fun debug(tag: String, lazyMessage: () -> String, exception: Exception? = null)
+    override fun debug(tag: String, lazyMessage: () -> String, exception: Exception?) {
+        if (isDebugEnable()) {
+            onDebug(tag, lazyMessage.invoke(), exception)
+        }
+    }
 }

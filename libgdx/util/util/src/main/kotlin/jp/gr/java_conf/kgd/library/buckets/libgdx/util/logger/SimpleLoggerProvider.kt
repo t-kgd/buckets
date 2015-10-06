@@ -24,11 +24,13 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-interface Logger {
+class SimpleLoggerProvider(private var logger: Logger) : MutableLoggerProvider {
 
-    fun isDebugEnable(): Boolean
+    override fun getLogger(): Logger {
+        return logger
+    }
 
-    fun debugThrough<T>(tag: String, obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T
-
-    fun debug(tag: String, lazyMessage: () -> String, exception: Exception? = null)
+    override fun setLogger(logger: Logger) {
+        this.logger = logger
+    }
 }

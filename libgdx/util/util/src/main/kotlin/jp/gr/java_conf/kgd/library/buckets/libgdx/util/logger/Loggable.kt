@@ -24,11 +24,13 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-interface Logger {
+interface Loggable {
 
-    fun isDebugEnable(): Boolean
+    fun debugThrough<T>(obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T
 
-    fun debugThrough<T>(tag: String, obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T
+    fun debugThrough<T>(obj: T): T {
+        return debugThrough(obj, { "" + obj }, null)
+    }
 
-    fun debug(tag: String, lazyMessage: () -> String, exception: Exception? = null)
+    fun debug(lazyMessage: () -> String, exception: Exception? = null)
 }
