@@ -22,20 +22,8 @@
  * THE SOFTWARE.
  */
 
-package config
+package scripts
 
-/**
- * アプリ起動時の初期設定ファイル。
- */
+List<String> list = list
 
-/**
- * 各種フォルダのパス。
- *
- * このファイルからの相対パスではなく、作業フォルダからのパスを指定してください。
- */
-path {
-    resources = "resources/"
-    scripts = "scripts/"
-    save = "save/"
-    defaultSkin = "${resources}ui/uiskin.json"
-}
+list.add("ほげ")

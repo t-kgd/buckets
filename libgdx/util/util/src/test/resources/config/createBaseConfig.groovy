@@ -22,11 +22,9 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable.foo
+package config
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.SimpleBaseConfig
 
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable.Reloadable
+def config = new SimpleBaseConfig()
 
-class FooReloadable : Reloadable {
-
-    var v = "initial"
-}
+return config

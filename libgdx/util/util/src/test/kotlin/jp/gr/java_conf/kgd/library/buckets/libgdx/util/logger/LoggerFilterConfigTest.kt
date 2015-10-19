@@ -22,25 +22,40 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.application.reloadable.foo.FooReloadable
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.DefaultFilesMock
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SimpleFilesProvider
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.files.FilesMock
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.files.FilesProviderSingleton
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.files.SimpleFilesProvider
+import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class ReloadableTest {
+class LoggerFilterConfigTest {
+
+    @Before
+    fun before() {
+        FilesProviderSingleton.filesProvider = SimpleFilesProvider(FilesMock())
+    }
 
     @Test
-    fun reloadTest() {
-        SingletonFilesProvider.filesProvider = SimpleFilesProvider(DefaultFilesMock())
+    fun defaultTest() {
+        val sut = LoggerFilterConfigProvider.getLoggerFilterConfig()
+        val actual = sut.getLogLevel("")
+        assertEquals(LogLevel.DEBUG, actual)
+    }
 
-        val sut = FooReloadable()
-        assertEquals("initial", sut.v)
+    @Test
+    fun packageDefaultTest() {
+        val sut = LoggerFilterConfigProvider.getLoggerFilterConfig()
+        val actual = sut.getLogLevel("jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger.Dummy")
+        assertEquals(LogLevel.WARN, actual)
+    }
 
-        sut.reload()
-        assertEquals("done", sut.v)
+    @Test
+    fun classSpecializeTest() {
+        val sut = LoggerFilterConfigProvider.getLoggerFilterConfig()
+        val actual = sut.getLogLevel("jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger.LoggerFilterConfigTest")
+        assertEquals(LogLevel.INFO, actual)
     }
 }

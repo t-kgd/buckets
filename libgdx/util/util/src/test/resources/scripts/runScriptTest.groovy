@@ -22,6 +22,6 @@
  * THE SOFTWARE.
  */
 
-package config
+package scripts
 
-isDebug = true
+return "てすと"

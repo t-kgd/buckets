@@ -22,23 +22,42 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.scripts
 
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.DebugConfig
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.DefaultFilesMock
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SimpleFilesProvider
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
+import groovy.lang.Binding
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.files.FilesMock
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.files.FilesProviderSingleton
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.files.SimpleFilesProvider
+import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-public class DebugConfigTest {
+class ScriptingUtilTest {
+
+    @Before
+    fun before() {
+        FilesProviderSingleton.filesProvider = SimpleFilesProvider(FilesMock())
+    }
 
     @Test
-    fun defaultImplTest() {
-        SingletonFilesProvider.filesProvider = SimpleFilesProvider(DefaultFilesMock())
+    fun runScriptTest() {
+        val actual = ScriptingUtil.runScript("runScriptTest.groovy", Binding());
+        assertEquals("てすと", actual)
+    }
 
-        val sut = DebugConfig
+    @Test
+    fun runGlobalScriptTest() {
+        val list = linkedListOf<String>()
+        val binding = BindingProvider.getGlobalBinding()
+        binding.setVariable("list", list);
+        ScriptingUtil.runGlobalScript("runGlobalScriptTest.groovy");
+        assertEquals("ほげ", list.get(0))
+    }
 
-        assertEquals(true, sut.isDebug())
+    @Test
+    fun runInstanceScriptTest() {
+        val list = linkedListOf<String>()
+        ScriptingUtil.runInstanceScript("runInstanceScriptTest.groovy", list);
+        assertEquals("ぴよ", list.get(0))
     }
 }

@@ -22,26 +22,8 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util
+package scripts
 
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.StartUpConfig
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.DefaultFilesMock
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SimpleFilesProvider
-import jp.gr.java_conf.kgd.library.buckets.libgdx.util.file.SingletonFilesProvider
-import org.junit.Test
-import kotlin.test.assertEquals
+List<String> self = self
 
-public class StartUpConfigTest {
-
-    @Test
-    fun defaultImplTest() {
-        SingletonFilesProvider.filesProvider = SimpleFilesProvider(DefaultFilesMock())
-
-        val sut = StartUpConfig
-
-        assertEquals("resources/", sut.getResourcesPath())
-        assertEquals("scripts/", sut.getScriptsPath())
-        assertEquals("save/", sut.getSavePath())
-        assertEquals("resources/ui/uiskin.json", sut.getDefaultSkinPath())
-    }
-}
+self.add("ぴよ")
