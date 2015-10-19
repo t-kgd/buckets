@@ -46,15 +46,10 @@ repositories {
     mavenLocal()
 }
 
-//configurations.all {
-//    // check for updates every build
-//    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-//}
-
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib:0.14.449'
     compile 'org.codehaus.groovy:groovy-all:2.4.5'
-    compile "com.badlogicgames.gdx:gdx:1.6.5"
+    compile "com.badlogicgames.gdx:gdx:1.7.0"
     compile('jp.gr.java_conf.kgd.library.buckets.util:util-groovy:1.0-SNAPSHOT') { changing = true }
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
