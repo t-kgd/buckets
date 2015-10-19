@@ -24,9 +24,9 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-interface LoggerProvider {
+interface LoggerFilterConfigProvider {
 
-    fun getLogger(): Logger
+    fun getLoggerFilterConfig(): LoggerFilterConfig
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    companion object : LoggerFilterConfigProvider by LoggerFilterConfigProviderSingleton
 }

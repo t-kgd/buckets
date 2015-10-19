@@ -24,11 +24,62 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
+/*
+ * トレイトや拡張メソッドでどうとでもできるのでクラスごとのLoggerのインスタンスを作らないタイプにする。
+ */
+
 interface Logger {
 
-    fun isDebugEnable(): Boolean
+    fun getLogLevel(tag: String): LogLevel
 
-    fun debugThrough<T>(tag: String, obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T
+    fun isLogLevelEnable(tag: String, logLevel: LogLevel): Boolean {
+        return getLogLevel(tag) >= logLevel
+    }
 
-    fun debug(tag: String, lazyMessage: () -> String, exception: Exception? = null)
+    fun outputLog(tag: String, logLevel: LogLevel, message: String, exception: Exception?)
+
+    fun logThrough<T>(tag: String, logLevel: LogLevel, obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T {
+        if (isLogLevelEnable(tag, logLevel)) {
+            outputLog(tag, logLevel, lazyMessage.invoke(obj), exception)
+        }
+        return obj
+    }
+
+    fun log(tag: String, logLevel: LogLevel, lazyMessage: () -> String, exception: Exception? = null) {
+        if (isLogLevelEnable(tag, logLevel)) {
+            outputLog(tag, logLevel, lazyMessage.invoke(), exception)
+        }
+    }
+
+    fun errorThrough<T>(tag: String, obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T {
+        return logThrough(tag, LogLevel.ERROR, obj, lazyMessage, exception)
+    }
+
+    fun error(tag: String, lazyMessage: () -> String, exception: Exception? = null) {
+        log(tag, LogLevel.ERROR, lazyMessage, exception)
+    }
+
+    fun warnThrough<T>(tag: String, obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T {
+        return logThrough(tag, LogLevel.WARN, obj, lazyMessage, exception)
+    }
+
+    fun warn(tag: String, lazyMessage: () -> String, exception: Exception? = null) {
+        log(tag, LogLevel.WARN, lazyMessage, exception)
+    }
+
+    fun infoThrough<T>(tag: String, obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T {
+        return logThrough(tag, LogLevel.INFO, obj, lazyMessage, exception)
+    }
+
+    fun info(tag: String, lazyMessage: () -> String, exception: Exception? = null) {
+        log(tag, LogLevel.INFO, lazyMessage, exception)
+    }
+
+    fun debugThrough<T>(tag: String, obj: T, lazyMessage: (T) -> String, exception: Exception? = null): T {
+        return logThrough(tag, LogLevel.DEBUG, obj, lazyMessage, exception)
+    }
+
+    fun debug(tag: String, lazyMessage: () -> String, exception: Exception? = null) {
+        log(tag, LogLevel.DEBUG, lazyMessage, exception)
+    }
 }

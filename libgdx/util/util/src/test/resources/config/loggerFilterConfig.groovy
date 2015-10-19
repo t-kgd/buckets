@@ -22,11 +22,35 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package config
 
-interface LoggerProvider {
+import static jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger.LogLevel.*
 
-    fun getLogger(): Logger
+/*
+ * プロパティファイルのようにパッケージ+クラス名で直接指定してしまうとダメらしい。
+ * （Groovyではパッケージ+クラス名がClassのfinal変数になってるみたい？）
+ */
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+ALL = DEBUG
+
+jp {
+    gr {
+        java_conf {
+            kgd {
+                library {
+                    buckets {
+                        libgdx {
+                            util {
+                                logger {
+                                    ALL = WARN
+                                    LoggerFilterConfigTest = INFO
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+

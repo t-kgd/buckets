@@ -22,11 +22,17 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.config
 
-interface LoggerProvider {
+interface MutableBaseConfig : BaseConfig {
 
-    fun getLogger(): Logger
+    fun setResourcesDirectoryPath(path: String)
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    fun setScriptsDirectoryPath(path: String)
+
+    fun setSaveDirectoryPath(path: String)
+
+    fun setLoggerFilterConfigFilePath(path: String)
+
+    fun setDefaultSkinFilePath(path: String)
 }

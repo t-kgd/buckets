@@ -22,11 +22,18 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.assets
 
-interface LoggerProvider {
+import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.utils.Disposable
 
-    fun getLogger(): Logger
+interface AssetManagerProvider : Disposable {
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    fun getAssetManager(): AssetManager
+
+    override fun dispose() {
+        getAssetManager().dispose()
+    }
+
+    companion object : AssetManagerProvider by AssetManagerProviderSingleton
 }

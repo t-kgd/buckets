@@ -22,11 +22,19 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.scripts
 
-interface LoggerProvider {
+import groovy.util.ResourceConnector
+import groovy.util.ResourceException
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.config.BaseConfigProvider
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.files.FileHandleResolverProvider
+import java.net.URLConnection
 
-    fun getLogger(): Logger
+class DefaultResourceConnector : ResourceConnector {
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    override fun getResourceConnection(name: String?): URLConnection? {
+        val rootPath = BaseConfigProvider.getBaseConfig().getScriptsDirectoryPath()
+        val fileHandle = FileHandleResolverProvider.getFileHandleResolver().resolve(rootPath + name) ?: throw ResourceException()
+        return fileHandle.file().toURI().toURL().openConnection()
+    }
 }

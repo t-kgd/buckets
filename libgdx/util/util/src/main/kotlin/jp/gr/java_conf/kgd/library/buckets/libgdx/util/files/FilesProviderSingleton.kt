@@ -22,11 +22,17 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.files
 
-interface LoggerProvider {
+import com.badlogic.gdx.Gdx
 
-    fun getLogger(): Logger
+/*
+ * シングルトンである。順番に説明する。
+ * １．FilesProviderWrapperの実装である → 中身のFilesProviderを差し替え可能ということ
+ * ２．LazyFilesProvider → 初めてアクセスされるまで委譲インスタンス「生成」を遅延する
+ * ３．{ SimpleFilesProvider(Gdx.files) }としている → つまり、Gdx.filesへのアクセスを遅延できる
+ * テスト時は、これを評価する前にFilesProviderWrapperのセッターでFilesProviderを差し替えれば良い
+ */
 
-    companion object : LoggerProvider by LoggerProviderSingleton
-}
+object FilesProviderSingleton : FilesProviderWrapper
+by SimpleFilesProviderWrapper(LazyFilesProvider({ SimpleFilesProvider(Gdx.files) }))

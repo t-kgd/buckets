@@ -22,11 +22,15 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.scripts
 
-interface LoggerProvider {
+import groovy.util.GroovyScriptEngine
 
-    fun getLogger(): Logger
+class DefaultScriptEngineProvider : ScriptEngineProvider {
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    private val scriptEngine_ by lazy { GroovyScriptEngine(DefaultResourceConnector()) }
+
+    override fun getScriptEngine(): GroovyScriptEngine {
+        return scriptEngine_
+    }
 }

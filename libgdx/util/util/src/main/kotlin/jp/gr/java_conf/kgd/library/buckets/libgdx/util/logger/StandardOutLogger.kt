@@ -24,14 +24,14 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-class StandardOutLogger : LoggerDefaultTrait {
+class StandardOutLogger : Logger {
 
-    override fun isDebugEnable(): Boolean {
-        return true
+    override fun getLogLevel(tag: String): LogLevel {
+        return LogLevel.DEBUG
     }
 
-    override fun onDebug(tag: String, message: String, exception: Exception?) {
-        println(tag + ": " + message)
+    override fun outputLog(tag: String, logLevel: LogLevel, message: String, exception: Exception?) {
+        println("[$logLevel]$tag: $message")
         exception?.printStackTrace(System.out)
     }
 }

@@ -22,11 +22,32 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.files
 
-interface LoggerProvider {
+import com.badlogic.gdx.assets.loaders.FileHandleResolver
+import com.badlogic.gdx.files.FileHandle
 
-    fun getLogger(): Logger
+class SimpleMultipleFileHandleResolver(vararg resolvers: FileHandleResolver) : MultipleFileHandleProvider {
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    override val resolvers: MutableList<FileHandleResolver> = linkedListOf(*resolvers)
+
+    private fun findResolver(fileName: String?): FileHandleResolver? = resolvers.find { it.resolve(fileName).exists() }
+
+    override fun resolve(fileName: String?): FileHandle? {
+        return findResolver(fileName)?.resolve(fileName)
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun of(vararg resolvers: (String?) -> FileHandle?): SimpleMultipleFileHandleResolver {
+            return SimpleMultipleFileHandleResolver(*resolvers.map { resolver ->
+                object : FileHandleResolver {
+                    override fun resolve(fileName: String?): FileHandle? {
+                        return resolver.invoke(fileName)
+                    }
+                }
+            }.toTypedArray())
+        }
+    }
 }

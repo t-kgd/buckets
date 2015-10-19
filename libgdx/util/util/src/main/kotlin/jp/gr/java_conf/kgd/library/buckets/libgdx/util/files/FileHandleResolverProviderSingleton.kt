@@ -22,11 +22,11 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.files
 
-interface LoggerProvider {
-
-    fun getLogger(): Logger
-
-    companion object : LoggerProvider by LoggerProviderSingleton
-}
+object FileHandleResolverProviderSingleton : FileHandleResolverProviderWrapper
+by SimpleFileHandleResolverProviderWrapper(SimpleFileHandleResolverProvider(
+        SimpleMultipleFileHandleResolver.of(
+                { FilesProvider.getFiles().local(it) },
+                { FilesProvider.getFiles().internal(it) },
+                { FilesProvider.getFiles().classpath(it) })))

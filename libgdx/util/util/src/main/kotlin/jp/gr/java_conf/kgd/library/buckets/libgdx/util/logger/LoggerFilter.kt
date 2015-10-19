@@ -24,9 +24,19 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-interface LoggerProvider {
+class LoggerFilter(private val logger: Logger, private val loggerFilterConfig: LoggerFilterConfig) : Logger {
 
-    fun getLogger(): Logger
+    override fun getLogLevel(tag: String): LogLevel {
+        val filterLevel = loggerFilterConfig.getLogLevel(tag)
+        val wrappedLevel = logger.getLogLevel(tag)
+        return if (filterLevel < wrappedLevel) {
+            filterLevel
+        } else {
+            wrappedLevel
+        }
+    }
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    override fun outputLog(tag: String, logLevel: LogLevel, message: String, exception: Exception?) {
+        logger.outputLog(tag, logLevel, message, exception)
+    }
 }

@@ -22,11 +22,11 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.config
 
-interface LoggerProvider {
+interface BaseConfigProvider {
 
-    fun getLogger(): Logger
+    fun getBaseConfig(): BaseConfig
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    companion object : BaseConfigProvider by BaseConfigProviderSingleton
 }

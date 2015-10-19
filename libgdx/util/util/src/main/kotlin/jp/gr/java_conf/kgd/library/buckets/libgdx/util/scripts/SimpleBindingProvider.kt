@@ -22,11 +22,27 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.scripts
 
-interface LoggerProvider {
+import groovy.lang.Binding
+import java.util.*
 
-    fun getLogger(): Logger
+class SimpleBindingProvider : BindingProvider {
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    private val globalBinding_: Binding by lazy { Binding() }
+
+    private val localBindingMap by lazy { WeakHashMap<Any, Binding>() }
+
+    override fun getGlobalBinding(): Binding {
+        return globalBinding_
+    }
+
+    override fun getInstanceBinding(owner: Any): Binding {
+        val localBinding = localBindingMap.getOrPut(owner, {
+            Binding().apply {
+                setVariable("self", owner)
+            }
+        })
+        return localBinding
+    }
 }

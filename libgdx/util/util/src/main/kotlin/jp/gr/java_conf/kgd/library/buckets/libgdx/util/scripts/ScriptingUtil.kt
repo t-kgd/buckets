@@ -22,11 +22,28 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.scripts
 
-interface LoggerProvider {
+import groovy.lang.Binding
 
-    fun getLogger(): Logger
+object ScriptingUtil {
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    @JvmStatic
+    fun runScript(path: String, binding: Binding): Any? {
+        val scriptEngine = ScriptEngineProvider.getScriptEngine()
+        val result = scriptEngine.run(path, binding)
+        return result
+    }
+
+    @JvmStatic
+    fun runGlobalScript(path: String): Any? {
+        val binding = BindingProvider.getGlobalBinding()
+        return runScript(path, binding)
+    }
+
+    @JvmStatic
+    fun runInstanceScript(path: String, owner: Any): Any? {
+        val binding = BindingProvider.getInstanceBinding(owner)
+        return runScript(path, binding)
+    }
 }

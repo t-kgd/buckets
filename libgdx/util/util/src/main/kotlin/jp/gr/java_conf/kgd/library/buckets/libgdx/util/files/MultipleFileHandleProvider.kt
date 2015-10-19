@@ -22,11 +22,11 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.files
 
-interface LoggerProvider {
+import com.badlogic.gdx.assets.loaders.FileHandleResolver
 
-    fun getLogger(): Logger
+interface MultipleFileHandleProvider : FileHandleResolver {
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    val resolvers: MutableList<FileHandleResolver>
 }

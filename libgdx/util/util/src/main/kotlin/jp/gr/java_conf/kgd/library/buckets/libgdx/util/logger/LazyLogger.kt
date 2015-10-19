@@ -24,9 +24,15 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-interface LoggerProvider {
+class LazyLogger(loggerSupplier: () -> Logger) : Logger {
 
-    fun getLogger(): Logger
+    private val logger by lazy { loggerSupplier.invoke() }
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    override fun getLogLevel(tag: String): LogLevel {
+        return logger.getLogLevel(tag)
+    }
+
+    override fun outputLog(tag: String, logLevel: LogLevel, message: String, exception: Exception?) {
+        logger.outputLog(tag, logLevel, message, exception)
+    }
 }

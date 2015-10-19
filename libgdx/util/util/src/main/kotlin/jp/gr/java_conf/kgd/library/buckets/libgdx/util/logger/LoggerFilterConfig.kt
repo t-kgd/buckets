@@ -24,9 +24,7 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-interface LoggerProvider {
+interface LoggerFilterConfig {
 
-    fun getLogger(): Logger
-
-    companion object : LoggerProvider by LoggerProviderSingleton
+    fun getLogLevel(tag: String): LogLevel
 }

@@ -22,11 +22,29 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.config
 
-interface LoggerProvider {
+import com.badlogic.gdx.files.FileHandle
+import groovy.lang.GroovyShell
+import jp.gr.java_conf.kgd.library.buckets.libgdx.util.files.FileHandleResolverProvider
 
-    fun getLogger(): Logger
+object BaseConfigUtil {
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    val defaultBaseConfigFilePath: String = "config/createBaseConfig.groovy"
+
+    fun getDefaultBaseConfigFileHandle(): FileHandle {
+        return FileHandleResolverProvider.getFileHandleResolver().resolve(defaultBaseConfigFilePath)
+    }
+
+    /**
+     * Groovyファイルから[BaseConfig]を取得する。
+     *
+     * [BaseConfig]を戻り値とするスクリプトファイルを指定してください。
+     */
+    fun loadBaseConfig(fileHandle: FileHandle = getDefaultBaseConfigFileHandle()): BaseConfig {
+        if (!fileHandle.exists()) return SimpleBaseConfig()
+        val shell = GroovyShell()
+        val config = shell.evaluate(fileHandle.file())
+        return config as BaseConfig
+    }
 }

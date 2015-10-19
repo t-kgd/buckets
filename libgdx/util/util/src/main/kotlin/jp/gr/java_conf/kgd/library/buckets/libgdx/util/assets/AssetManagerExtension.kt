@@ -22,11 +22,25 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+@file:JvmName("AssetManagerExtension")
 
-interface LoggerProvider {
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.assets
 
-    fun getLogger(): Logger
+import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+inline fun AssetManager.load<reified T : Any>(path: String) {
+    AssetManagerUtil.load<T>(this, path)
+}
+
+inline fun AssetManager.getOrNull<reified T : Any>(path: String): T? {
+    return AssetManagerUtil.getOrNull<T>(this, path)
+}
+
+inline fun AssetManager.loadSync<reified T : Any>(path: String): T {
+    return AssetManagerUtil.loadSync(this, path, T::class.java)
+}
+
+fun AssetManager.getDefaultSkin(): Skin {
+    return AssetManagerUtil.getDefaultSkin(this)
 }

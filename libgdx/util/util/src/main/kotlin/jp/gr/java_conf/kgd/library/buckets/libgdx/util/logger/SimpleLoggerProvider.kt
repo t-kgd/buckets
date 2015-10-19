@@ -24,13 +24,9 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
-class SimpleLoggerProvider(private var logger: Logger) : MutableLoggerProvider {
+class SimpleLoggerProvider(private val logger: Logger) : LoggerProvider {
 
     override fun getLogger(): Logger {
         return logger
-    }
-
-    override fun setLogger(logger: Logger) {
-        this.logger = logger
     }
 }

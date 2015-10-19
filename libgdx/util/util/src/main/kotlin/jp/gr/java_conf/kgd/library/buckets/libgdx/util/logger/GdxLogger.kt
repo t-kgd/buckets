@@ -24,15 +24,47 @@
 
 package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
 
+import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 
-class GdxLogger : LoggerDefaultTrait {
+class GdxLogger : Logger {
 
-    override fun isDebugEnable(): Boolean {
-        return Gdx.app.logLevel >= com.badlogic.gdx.utils.Logger.DEBUG
+    private val app: Application by lazy { Gdx.app.apply { logLevel = Application.LOG_DEBUG } }
+
+    override fun getLogLevel(tag: String): LogLevel {
+        return convertGdxLogLevel(app.logLevel)
     }
 
-    override fun onDebug(tag: String, message: String, exception: Exception?) {
-        Gdx.app.debug(tag, message, exception)
+    override fun outputLog(tag: String, logLevel: LogLevel, message: String, exception: Exception?) {
+        if (exception != null) {
+            when (logLevel) {
+                LogLevel.ERROR -> app.error(tag, message, exception)
+                LogLevel.WARN -> app.log(tag, message, exception)
+                LogLevel.INFO -> app.log(tag, message, exception)
+                LogLevel.DEBUG -> app.debug(tag, message, exception)
+                else -> Unit
+            }
+        } else {
+            when (logLevel) {
+                LogLevel.ERROR -> app.error(tag, message)
+                LogLevel.WARN -> app.log(tag, message)
+                LogLevel.INFO -> app.log(tag, message)
+                LogLevel.DEBUG -> app.debug(tag, message)
+                else -> Unit
+            }
+        }
+    }
+
+    companion object {
+
+        fun convertGdxLogLevel(gdxLogLevel: Int): LogLevel {
+            return when (gdxLogLevel) {
+                com.badlogic.gdx.utils.Logger.NONE -> LogLevel.NONE
+                com.badlogic.gdx.utils.Logger.ERROR -> LogLevel.ERROR
+                com.badlogic.gdx.utils.Logger.INFO -> LogLevel.INFO
+                com.badlogic.gdx.utils.Logger.DEBUG -> LogLevel.DEBUG
+                else -> LogLevel.NONE
+            }
+        }
     }
 }

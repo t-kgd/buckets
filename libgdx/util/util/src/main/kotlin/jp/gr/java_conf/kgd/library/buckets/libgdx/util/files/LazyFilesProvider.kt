@@ -22,11 +22,15 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.library.buckets.libgdx.util.logger
+package jp.gr.java_conf.kgd.library.buckets.libgdx.util.files
 
-interface LoggerProvider {
+import com.badlogic.gdx.Files
 
-    fun getLogger(): Logger
+class LazyFilesProvider(filesProviderSupplier: () -> FilesProvider) : FilesProvider {
 
-    companion object : LoggerProvider by LoggerProviderSingleton
+    private val filesProvider by lazy { filesProviderSupplier.invoke() }
+
+    override fun getFiles(): Files {
+        return filesProvider.getFiles()
+    }
 }
